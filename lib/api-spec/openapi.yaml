@@ -1,15 +1,20 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ToolsHub API specification
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: weather
+    description: Weather operations
+  - name: currency
+    description: Currency operations
+  - name: tools
+    description: Tool operations
 paths:
   /healthz:
     get:
@@ -24,6 +29,169 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /weather:
+    get:
+      operationId: getWeather
+      tags: [weather]
+      summary: Get weather for a city
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Weather data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherData"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /currency/rates:
+    get:
+      operationId: getCurrencyRates
+      tags: [currency]
+      summary: Get currency exchange rates
+      parameters:
+        - name: base
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Currency rates
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyRates"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tools/shorten-url:
+    post:
+      operationId: shortenUrl
+      tags: [tools]
+      summary: Shorten a URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShortenUrlRequest"
+      responses:
+        "200":
+          description: Shortened URL
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShortenUrlResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tools/paraphrase:
+    post:
+      operationId: paraphraseText
+      tags: [tools]
+      summary: Paraphrase text to remove plagiarism
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequest"
+      responses:
+        "200":
+          description: Paraphrased text
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TextResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tools/check-ai:
+    post:
+      operationId: checkAiContent
+      tags: [tools]
+      summary: Check if content is AI-generated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequest"
+      responses:
+        "200":
+          description: AI detection result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiDetectionResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /tools/check-plagiarism:
+    post:
+      operationId: checkPlagiarism
+      tags: [tools]
+      summary: Check text for plagiarism
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TextRequest"
+      responses:
+        "200":
+          description: Plagiarism check result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlagiarismResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +202,158 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    WeatherData:
+      type: object
+      properties:
+        city:
+          type: string
+        country:
+          type: string
+        temperature:
+          type: number
+        feelsLike:
+          type: number
+        humidity:
+          type: number
+        windSpeed:
+          type: number
+        description:
+          type: string
+        icon:
+          type: string
+        visibility:
+          type: number
+        pressure:
+          type: number
+      required:
+        - city
+        - country
+        - temperature
+        - feelsLike
+        - humidity
+        - windSpeed
+        - description
+        - icon
+        - visibility
+        - pressure
+
+    CurrencyRates:
+      type: object
+      properties:
+        base:
+          type: string
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+        timestamp:
+          type: integer
+      required:
+        - base
+        - rates
+        - timestamp
+
+    ShortenUrlRequest:
+      type: object
+      properties:
+        url:
+          type: string
+      required:
+        - url
+
+    ShortenUrlResponse:
+      type: object
+      properties:
+        originalUrl:
+          type: string
+        shortUrl:
+          type: string
+        shortCode:
+          type: string
+      required:
+        - originalUrl
+        - shortUrl
+        - shortCode
+
+    TextRequest:
+      type: object
+      properties:
+        text:
+          type: string
+      required:
+        - text
+
+    TextResponse:
+      type: object
+      properties:
+        original:
+          type: string
+        result:
+          type: string
+      required:
+        - original
+        - result
+
+    AiDetectionResult:
+      type: object
+      properties:
+        aiScore:
+          type: number
+          description: 0-100, higher means more likely AI
+        humanScore:
+          type: number
+        verdict:
+          type: string
+        sentences:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              score:
+                type: number
+            required:
+              - text
+              - score
+      required:
+        - aiScore
+        - humanScore
+        - verdict
+        - sentences
+
+    PlagiarismResult:
+      type: object
+      properties:
+        score:
+          type: number
+          description: 0-100, higher means more plagiarism detected
+        verdict:
+          type: string
+        uniqueScore:
+          type: number
+        matches:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+              similarity:
+                type: number
+            required:
+              - text
+              - similarity
+      required:
+        - score
+        - verdict
+        - uniqueScore
+        - matches
