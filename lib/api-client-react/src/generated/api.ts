@@ -18,11 +18,18 @@ import type {
 
 import type {
   AiDetectionResult,
+  BlogPost,
+  BlogPostList,
   CurrencyRates,
+  EraseObjectRequest,
   ErrorResponse,
+  GetBlogPostsParams,
   GetCurrencyRatesParams,
+  GetWeatherByCoordsParams,
   GetWeatherParams,
   HealthStatus,
+  ImageBase64Request,
+  ImageBase64Response,
   PlagiarismResult,
   ShortenUrlRequest,
   ShortenUrlResponse,
@@ -41,7 +48,6 @@ type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 /**
- * Returns server health status
  * @summary Health check
  */
 export const getHealthCheckUrl = () => {
@@ -202,6 +208,103 @@ export function useGetWeather<
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetWeatherQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get weather by GPS coordinates
+ */
+export const getGetWeatherByCoordsUrl = (params: GetWeatherByCoordsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/weather/by-coords?${stringifiedParams}`
+    : `/api/weather/by-coords`;
+};
+
+export const getWeatherByCoords = async (
+  params: GetWeatherByCoordsParams,
+  options?: RequestInit,
+): Promise<WeatherData> => {
+  return customFetch<WeatherData>(getGetWeatherByCoordsUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetWeatherByCoordsQueryKey = (
+  params?: GetWeatherByCoordsParams,
+) => {
+  return [`/api/weather/by-coords`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetWeatherByCoordsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getWeatherByCoords>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  params: GetWeatherByCoordsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getWeatherByCoords>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetWeatherByCoordsQueryKey(params);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getWeatherByCoords>>
+  > = ({ signal }) => getWeatherByCoords(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getWeatherByCoords>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetWeatherByCoordsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getWeatherByCoords>>
+>;
+export type GetWeatherByCoordsQueryError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Get weather by GPS coordinates
+ */
+
+export function useGetWeatherByCoords<
+  TData = Awaited<ReturnType<typeof getWeatherByCoords>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  params: GetWeatherByCoordsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getWeatherByCoords>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetWeatherByCoordsQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;
@@ -650,3 +753,356 @@ export const useCheckPlagiarism = <
 > => {
   return useMutation(getCheckPlagiarismMutationOptions(options));
 };
+
+/**
+ * @summary Remove background from image using AI
+ */
+export const getRemoveBgUrl = () => {
+  return `/api/image/remove-bg`;
+};
+
+export const removeBg = async (
+  imageBase64Request: ImageBase64Request,
+  options?: RequestInit,
+): Promise<ImageBase64Response> => {
+  return customFetch<ImageBase64Response>(getRemoveBgUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(imageBase64Request),
+  });
+};
+
+export const getRemoveBgMutationOptions = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof removeBg>>,
+    TError,
+    { data: BodyType<ImageBase64Request> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof removeBg>>,
+  TError,
+  { data: BodyType<ImageBase64Request> },
+  TContext
+> => {
+  const mutationKey = ["removeBg"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof removeBg>>,
+    { data: BodyType<ImageBase64Request> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return removeBg(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type RemoveBgMutationResult = NonNullable<
+  Awaited<ReturnType<typeof removeBg>>
+>;
+export type RemoveBgMutationBody = BodyType<ImageBase64Request>;
+export type RemoveBgMutationError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Remove background from image using AI
+ */
+export const useRemoveBg = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof removeBg>>,
+    TError,
+    { data: BodyType<ImageBase64Request> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof removeBg>>,
+  TError,
+  { data: BodyType<ImageBase64Request> },
+  TContext
+> => {
+  return useMutation(getRemoveBgMutationOptions(options));
+};
+
+/**
+ * @summary Erase object from image using AI inpainting
+ */
+export const getEraseObjectUrl = () => {
+  return `/api/image/erase-object`;
+};
+
+export const eraseObject = async (
+  eraseObjectRequest: EraseObjectRequest,
+  options?: RequestInit,
+): Promise<ImageBase64Response> => {
+  return customFetch<ImageBase64Response>(getEraseObjectUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(eraseObjectRequest),
+  });
+};
+
+export const getEraseObjectMutationOptions = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eraseObject>>,
+    TError,
+    { data: BodyType<EraseObjectRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof eraseObject>>,
+  TError,
+  { data: BodyType<EraseObjectRequest> },
+  TContext
+> => {
+  const mutationKey = ["eraseObject"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof eraseObject>>,
+    { data: BodyType<EraseObjectRequest> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return eraseObject(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type EraseObjectMutationResult = NonNullable<
+  Awaited<ReturnType<typeof eraseObject>>
+>;
+export type EraseObjectMutationBody = BodyType<EraseObjectRequest>;
+export type EraseObjectMutationError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Erase object from image using AI inpainting
+ */
+export const useEraseObject = <
+  TError = ErrorType<ErrorResponse>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof eraseObject>>,
+    TError,
+    { data: BodyType<EraseObjectRequest> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof eraseObject>>,
+  TError,
+  { data: BodyType<EraseObjectRequest> },
+  TContext
+> => {
+  return useMutation(getEraseObjectMutationOptions(options));
+};
+
+/**
+ * @summary Get all blog posts
+ */
+export const getGetBlogPostsUrl = (params?: GetBlogPostsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/blog/posts?${stringifiedParams}`
+    : `/api/blog/posts`;
+};
+
+export const getBlogPosts = async (
+  params?: GetBlogPostsParams,
+  options?: RequestInit,
+): Promise<BlogPostList> => {
+  return customFetch<BlogPostList>(getGetBlogPostsUrl(params), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetBlogPostsQueryKey = (params?: GetBlogPostsParams) => {
+  return [`/api/blog/posts`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetBlogPostsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getBlogPosts>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetBlogPostsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBlogPosts>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetBlogPostsQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getBlogPosts>>> = ({
+    signal,
+  }) => getBlogPosts(params, { signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getBlogPosts>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetBlogPostsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getBlogPosts>>
+>;
+export type GetBlogPostsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get all blog posts
+ */
+
+export function useGetBlogPosts<
+  TData = Awaited<ReturnType<typeof getBlogPosts>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetBlogPostsParams,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBlogPosts>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetBlogPostsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get a single blog post by slug
+ */
+export const getGetBlogPostUrl = (slug: string) => {
+  return `/api/blog/posts/${slug}`;
+};
+
+export const getBlogPost = async (
+  slug: string,
+  options?: RequestInit,
+): Promise<BlogPost> => {
+  return customFetch<BlogPost>(getGetBlogPostUrl(slug), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetBlogPostQueryKey = (slug: string) => {
+  return [`/api/blog/posts/${slug}`] as const;
+};
+
+export const getGetBlogPostQueryOptions = <
+  TData = Awaited<ReturnType<typeof getBlogPost>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  slug: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBlogPost>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetBlogPostQueryKey(slug);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getBlogPost>>> = ({
+    signal,
+  }) => getBlogPost(slug, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!slug,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getBlogPost>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetBlogPostQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getBlogPost>>
+>;
+export type GetBlogPostQueryError = ErrorType<ErrorResponse>;
+
+/**
+ * @summary Get a single blog post by slug
+ */
+
+export function useGetBlogPost<
+  TData = Awaited<ReturnType<typeof getBlogPost>>,
+  TError = ErrorType<ErrorResponse>,
+>(
+  slug: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBlogPost>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetBlogPostQueryOptions(slug, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}

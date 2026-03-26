@@ -8,7 +8,6 @@
 import type { AiDetectionResultSentencesItem } from "./aiDetectionResultSentencesItem";
 
 export interface AiDetectionResult {
-  /** 0-100, higher means more likely AI */
   aiScore: number;
   humanScore: number;
   verdict: string;

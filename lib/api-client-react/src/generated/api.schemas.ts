@@ -59,7 +59,6 @@ export type AiDetectionResultSentencesItem = {
 };
 
 export interface AiDetectionResult {
-  /** 0-100, higher means more likely AI */
   aiScore: number;
   humanScore: number;
   verdict: string;
@@ -72,17 +71,81 @@ export type PlagiarismResultMatchesItem = {
 };
 
 export interface PlagiarismResult {
-  /** 0-100, higher means more plagiarism detected */
   score: number;
   verdict: string;
   uniqueScore: number;
   matches: PlagiarismResultMatchesItem[];
 }
 
+export interface ImageBase64Request {
+  /** Base64 encoded image */
+  imageBase64: string;
+  /** Image MIME type (image/jpeg, image/png) */
+  mimeType: string;
+}
+
+export interface EraseObjectRequest {
+  /** Base64 encoded original image */
+  imageBase64: string;
+  /** Base64 encoded mask image (white = erase, black = keep) */
+  maskBase64: string;
+  mimeType: string;
+}
+
+export interface ImageBase64Response {
+  /** Base64 encoded result image */
+  resultBase64: string;
+  mimeType: string;
+}
+
+export interface BlogPostSummary {
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  readTime: number;
+  coverImage: string;
+  tags: string[];
+}
+
+export interface BlogPost {
+  slug: string;
+  title: string;
+  excerpt: string;
+  /** HTML content of the post */
+  content: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  readTime: number;
+  coverImage: string;
+  tags: string[];
+}
+
+export interface BlogPostList {
+  posts: BlogPostSummary[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
 export type GetWeatherParams = {
   city: string;
 };
 
+export type GetWeatherByCoordsParams = {
+  lat: number;
+  lon: number;
+};
+
 export type GetCurrencyRatesParams = {
   base: string;
+};
+
+export type GetBlogPostsParams = {
+  page?: number;
+  limit?: number;
+  category?: string;
 };

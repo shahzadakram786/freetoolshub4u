@@ -8,7 +8,6 @@
 import * as zod from "zod";
 
 /**
- * Returns server health status
  * @summary Health check
  */
 export const HealthCheckResponse = zod.object({
@@ -23,6 +22,27 @@ export const GetWeatherQueryParams = zod.object({
 });
 
 export const GetWeatherResponse = zod.object({
+  city: zod.string(),
+  country: zod.string(),
+  temperature: zod.number(),
+  feelsLike: zod.number(),
+  humidity: zod.number(),
+  windSpeed: zod.number(),
+  description: zod.string(),
+  icon: zod.string(),
+  visibility: zod.number(),
+  pressure: zod.number(),
+});
+
+/**
+ * @summary Get weather by GPS coordinates
+ */
+export const GetWeatherByCoordsQueryParams = zod.object({
+  lat: zod.coerce.number(),
+  lon: zod.coerce.number(),
+});
+
+export const GetWeatherByCoordsResponse = zod.object({
   city: zod.string(),
   country: zod.string(),
   temperature: zod.number(),
@@ -81,7 +101,7 @@ export const CheckAiContentBody = zod.object({
 });
 
 export const CheckAiContentResponse = zod.object({
-  aiScore: zod.number().describe("0-100, higher means more likely AI"),
+  aiScore: zod.number(),
   humanScore: zod.number(),
   verdict: zod.string(),
   sentences: zod.array(
@@ -100,7 +120,7 @@ export const CheckPlagiarismBody = zod.object({
 });
 
 export const CheckPlagiarismResponse = zod.object({
-  score: zod.number().describe("0-100, higher means more plagiarism detected"),
+  score: zod.number(),
   verdict: zod.string(),
   uniqueScore: zod.number(),
   matches: zod.array(
@@ -109,4 +129,81 @@ export const CheckPlagiarismResponse = zod.object({
       similarity: zod.number(),
     }),
   ),
+});
+
+/**
+ * @summary Remove background from image using AI
+ */
+export const RemoveBgBody = zod.object({
+  imageBase64: zod.string().describe("Base64 encoded image"),
+  mimeType: zod.string().describe("Image MIME type (image\/jpeg, image\/png)"),
+});
+
+export const RemoveBgResponse = zod.object({
+  resultBase64: zod.string().describe("Base64 encoded result image"),
+  mimeType: zod.string(),
+});
+
+/**
+ * @summary Erase object from image using AI inpainting
+ */
+export const EraseObjectBody = zod.object({
+  imageBase64: zod.string().describe("Base64 encoded original image"),
+  maskBase64: zod
+    .string()
+    .describe("Base64 encoded mask image (white = erase, black = keep)"),
+  mimeType: zod.string(),
+});
+
+export const EraseObjectResponse = zod.object({
+  resultBase64: zod.string().describe("Base64 encoded result image"),
+  mimeType: zod.string(),
+});
+
+/**
+ * @summary Get all blog posts
+ */
+export const GetBlogPostsQueryParams = zod.object({
+  page: zod.coerce.number().optional(),
+  limit: zod.coerce.number().optional(),
+  category: zod.coerce.string().optional(),
+});
+
+export const GetBlogPostsResponse = zod.object({
+  posts: zod.array(
+    zod.object({
+      slug: zod.string(),
+      title: zod.string(),
+      excerpt: zod.string(),
+      category: zod.string(),
+      author: zod.string(),
+      publishedAt: zod.string(),
+      readTime: zod.number(),
+      coverImage: zod.string(),
+      tags: zod.array(zod.string()),
+    }),
+  ),
+  total: zod.number(),
+  page: zod.number(),
+  totalPages: zod.number(),
+});
+
+/**
+ * @summary Get a single blog post by slug
+ */
+export const GetBlogPostParams = zod.object({
+  slug: zod.coerce.string(),
+});
+
+export const GetBlogPostResponse = zod.object({
+  slug: zod.string(),
+  title: zod.string(),
+  excerpt: zod.string(),
+  content: zod.string().describe("HTML content of the post"),
+  category: zod.string(),
+  author: zod.string(),
+  publishedAt: zod.string(),
+  readTime: zod.number(),
+  coverImage: zod.string(),
+  tags: zod.array(zod.string()),
 });

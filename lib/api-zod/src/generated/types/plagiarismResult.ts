@@ -8,7 +8,6 @@
 import type { PlagiarismResultMatchesItem } from "./plagiarismResultMatchesItem";
 
 export interface PlagiarismResult {
-  /** 0-100, higher means more plagiarism detected */
   score: number;
   verdict: string;
   uniqueScore: number;

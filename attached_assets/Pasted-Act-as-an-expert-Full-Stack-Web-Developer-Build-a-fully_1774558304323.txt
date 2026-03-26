@@ -1,0 +1,27 @@
+Act as an expert Full-Stack Web Developer. Build a fully responsive, multi-page website using Next.js and Tailwind CSS. The architecture must utilize Next.js App Router for distinct, separate pages, strictly avoiding a single-page (1-pager) layout.
+
+Please implement the following features and toolsets:
+
+1. Integrated Blog System:
+Create a robust blog architecture. Structure the code to fetch and display dynamic posts from a headless CMS (like Sanity.io). Include a blog index page and dynamic single-post routes with proper SEO metadata.
+
+2. High-Precision AI Image Tools:
+Create a dedicated tools section featuring:
+
+Background Remover: Implement an upload interface that connects to a high-accuracy API (e.g., Remove.bg API or a Replicate model) to ensure precise edge detection and masking.
+
+Object Eraser: Build a canvas interface allowing users to brush over unwanted objects, sending the coordinates and image to an inpainting API for seamless object removal.
+
+3. Dynamic & Localized Data Tools:
+
+Precise Weather Report: Implement browser Geolocation API to auto-detect the user's exact coordinates. Pass these to the OpenWeatherMap API (or similar) to display highly accurate, real-time local weather conditions.
+
+Live Currency Tracker & Converter: Build a currency tool that fetches real-time market rates via an Exchange Rate API (like ExchangeRate-API or Fixer). The component must automatically update the displayed values to reflect live market fluctuations.
+
+4. Enhanced BMI Calculator:
+Build a responsive BMI calculator with a clear toggle between Metric and Imperial units. Crucially, the Imperial option must allow users to input their height specifically in feet and inches, and weight in pounds, converting accurately to display their BMI category.
+
+Ensure all API keys are handled securely via environment variables, and optimize data fetching for fast page loads."
+
+A Quick Note on the "Accuracy" Requirement:
+To get truly precise background and object removal, standard frontend code isn't enough; you have to route those images to a specialized AI model. The prompt above specifically instructs the AI to set up the API integrations for those heavy-lifting tools so you get professional-grade results.

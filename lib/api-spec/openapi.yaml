@@ -15,13 +15,16 @@ tags:
     description: Currency operations
   - name: tools
     description: Tool operations
+  - name: image
+    description: Image AI operations
+  - name: blog
+    description: Blog operations
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -54,6 +57,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /weather/by-coords:
+    get:
+      operationId: getWeatherByCoords
+      tags: [weather]
+      summary: Get weather by GPS coordinates
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Weather data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherData"
         "500":
           description: Server error
           content:
@@ -192,6 +225,122 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
+  /image/remove-bg:
+    post:
+      operationId: removeBg
+      tags: [image]
+      summary: Remove background from image using AI
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImageBase64Request"
+      responses:
+        "200":
+          description: Image with background removed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageBase64Response"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: API key not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /image/erase-object:
+    post:
+      operationId: eraseObject
+      tags: [image]
+      summary: Erase object from image using AI inpainting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EraseObjectRequest"
+      responses:
+        "200":
+          description: Image with object erased
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImageBase64Response"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: API key not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /blog/posts:
+    get:
+      operationId: getBlogPosts
+      tags: [blog]
+      summary: Get all blog posts
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Blog posts list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPostList"
+
+  /blog/posts/{slug}:
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      summary: Get a single blog post by slug
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Single blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+        "404":
+          description: Post not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -307,7 +456,6 @@ components:
       properties:
         aiScore:
           type: number
-          description: 0-100, higher means more likely AI
         humanScore:
           type: number
         verdict:
@@ -335,7 +483,6 @@ components:
       properties:
         score:
           type: number
-          description: 0-100, higher means more plagiarism detected
         verdict:
           type: string
         uniqueScore:
@@ -357,3 +504,135 @@ components:
         - verdict
         - uniqueScore
         - matches
+
+    ImageBase64Request:
+      type: object
+      properties:
+        imageBase64:
+          type: string
+          description: Base64 encoded image
+        mimeType:
+          type: string
+          description: Image MIME type (image/jpeg, image/png)
+      required:
+        - imageBase64
+        - mimeType
+
+    EraseObjectRequest:
+      type: object
+      properties:
+        imageBase64:
+          type: string
+          description: Base64 encoded original image
+        maskBase64:
+          type: string
+          description: Base64 encoded mask image (white = erase, black = keep)
+        mimeType:
+          type: string
+      required:
+        - imageBase64
+        - maskBase64
+        - mimeType
+
+    ImageBase64Response:
+      type: object
+      properties:
+        resultBase64:
+          type: string
+          description: Base64 encoded result image
+        mimeType:
+          type: string
+      required:
+        - resultBase64
+        - mimeType
+
+    BlogPostSummary:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        excerpt:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        publishedAt:
+          type: string
+        readTime:
+          type: integer
+        coverImage:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - slug
+        - title
+        - excerpt
+        - category
+        - author
+        - publishedAt
+        - readTime
+        - coverImage
+        - tags
+
+    BlogPost:
+      type: object
+      properties:
+        slug:
+          type: string
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+          description: HTML content of the post
+        category:
+          type: string
+        author:
+          type: string
+        publishedAt:
+          type: string
+        readTime:
+          type: integer
+        coverImage:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - slug
+        - title
+        - excerpt
+        - content
+        - category
+        - author
+        - publishedAt
+        - readTime
+        - coverImage
+        - tags
+
+    BlogPostList:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: "#/components/schemas/BlogPostSummary"
+        total:
+          type: integer
+        page:
+          type: integer
+        totalPages:
+          type: integer
+      required:
+        - posts
+        - total
+        - page
+        - totalPages
