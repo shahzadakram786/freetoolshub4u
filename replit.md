@@ -2,6 +2,8 @@
 
 ## Overview
 
+ToolsHub is a multi-page free online tools website with 20+ utilities, blog system, AI-powered image tools, live weather and currency data, and a full set of company pages. Built for SEO and Google AdSense monetization.
+
 pnpm workspace monorepo using TypeScript. Each package manages its own dependencies.
 
 ## Stack

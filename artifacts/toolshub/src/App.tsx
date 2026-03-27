@@ -24,6 +24,7 @@ import {
   CaseConverter, Base64Encoder, JsonFormatter, BmiCalculator,
   AgeCalculator, PlagiarismChecker, Paraphraser
 } from "@/pages/generic-tools";
+import { PrivacyPolicy, TermsOfService, AboutPage, ContactPage } from "@/pages/legal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,6 +81,12 @@ function Router() {
       <Route path="/blog/:slug">
         {(params) => <BlogPost slug={params.slug} />}
       </Route>
+
+      {/* Legal & Company */}
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
 
       <Route component={NotFound} />
     </Switch>

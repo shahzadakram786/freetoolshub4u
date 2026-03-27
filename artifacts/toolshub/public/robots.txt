@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or private paths (none currently, placeholder)
+# Disallow: /admin/
+
+# Sitemap
+Sitemap: https://toolshub.replit.app/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 10
