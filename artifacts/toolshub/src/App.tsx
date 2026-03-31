@@ -25,6 +25,7 @@ import {
   AgeCalculator, PlagiarismChecker, Paraphraser
 } from "@/pages/generic-tools";
 import { PrivacyPolicy, TermsOfService, AboutPage, ContactPage } from "@/pages/legal";
+import { WellnessPage } from "@/pages/wellness";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -87,6 +88,7 @@ function Router() {
       <Route path="/terms-of-service" component={TermsOfService} />
       <Route path="/about" component={AboutPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/wellness" component={WellnessPage} />
 
       <Route component={NotFound} />
     </Switch>
