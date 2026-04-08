@@ -5,7 +5,7 @@ Allow: /
 # Disallow: /admin/
 
 # Sitemap
-Sitemap: https://toolshub.replit.app/sitemap.xml
+Sitemap: https://freetoolshub4u.com/sitemap.xml
 
 # Crawl-delay for bots
 Crawl-delay: 10

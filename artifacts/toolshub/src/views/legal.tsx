@@ -27,7 +27,7 @@ export function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-bold mb-3">1. Overview</h2>
             <p className="text-muted-foreground leading-relaxed">
-              ToolsHub ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you visit our website at toolshub.replit.app (the "Service"). By using our Service, you agree to this policy.
+              ToolsHub ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you visit our website at freetoolshub4u.com (the "Service"). By using our Service, you agree to this policy.
             </p>
           </section>
 

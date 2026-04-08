@@ -63,7 +63,7 @@ export function SeoHead({ title, description, keywords, ogImage, canonicalPath, 
         link.rel = "canonical";
         document.head.appendChild(link);
       }
-      link.href = `https://toolshub.replit.app${canonicalPath}`;
+      link.href = `https://freetoolshub4u.com${canonicalPath}`;
     }
 
     // JSON-LD
@@ -94,7 +94,7 @@ export function toolJsonLd(name: string, description: string, url: string) {
     "@type": "SoftwareApplication",
     name,
     description,
-    url: `https://toolshub.replit.app${url}`,
+    url: `https://freetoolshub4u.com${url}`,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web Browser",
     offers: {
@@ -105,7 +105,7 @@ export function toolJsonLd(name: string, description: string, url: string) {
     provider: {
       "@type": "Organization",
       name: "ToolsHub",
-      url: "https://toolshub.replit.app",
+      url: "https://freetoolshub4u.com",
     },
   };
 }
