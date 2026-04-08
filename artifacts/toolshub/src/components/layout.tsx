@@ -1,5 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search, Wrench, Menu, X, Github, Twitter, Youtube, ChevronDown, Sun, Moon, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
@@ -62,7 +63,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [location] = useLocation();
+  const location = usePathname() || "";
   const { theme, toggle, isDark } = useTheme();
 
   const allLinks = TOOL_CATEGORIES.flatMap((c) => c.links);
