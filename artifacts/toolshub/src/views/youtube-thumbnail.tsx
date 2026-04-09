@@ -60,7 +60,7 @@ export function YoutubeThumbnail() {
           <div className="animate-in fade-in space-y-6">
             <h3 className="text-2xl font-bold text-center">High Resolution Thumbnail</h3>
             <Card className="overflow-hidden shadow-2xl p-2 border border-border/50 bg-muted/20">
-              <img src={thumbnailUrl} alt="Video Thumbnail" className="w-full h-auto rounded-xl" / loading="lazy" decoding="async" />
+              <img src={thumbnailUrl} alt="Video Thumbnail" className="w-full h-auto rounded-xl" loading="lazy" decoding="async" />
             </Card>
             <div className="flex justify-center">
               <a href={thumbnailUrl} target="_blank" rel="noopener noreferrer" download="thumbnail.jpg" className="inline-flex h-11 items-center justify-center rounded-md bg-red-600 px-8 text-sm font-medium text-destructive-foreground shadow hover:bg-red-600/90 gap-2">

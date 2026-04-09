@@ -93,7 +93,8 @@ export function ImageToText() {
           </div>
           <h1 className="text-4xl font-bold mb-3">Image to Text (OCR)</h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Upload any image and extract the text from it instantly. Works with JPG, PNG, GIF and more.
+            Upload any image and extract the text from it instantly. Works with
+            JPG, PNG, GIF and more.
           </p>
         </div>
 
@@ -107,14 +108,22 @@ export function ImageToText() {
               onClick={() => fileInputRef.current?.click()}
             >
               {image ? (
-                <img src={image} alt="Uploaded" className="max-h-48 mx-auto rounded-lg object-contain" / loading="lazy" decoding="async" />
+                <img
+                  src={image}
+                  alt="Uploaded"
+                  className="max-h-48 mx-auto rounded-lg object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
               ) : (
                 <div>
                   <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-muted-foreground text-sm">
                     Drag & drop an image here, or click to browse
                   </p>
-                  <p className="text-xs text-muted-foreground mt-2">Supports JPG, PNG, GIF, BMP, TIFF</p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Supports JPG, PNG, GIF, BMP, TIFF
+                  </p>
                 </div>
               )}
             </div>
@@ -134,7 +143,11 @@ export function ImageToText() {
               >
                 {loading ? `Extracting... ${progress}%` : "Extract Text"}
               </Button>
-              <Button variant="outline" onClick={handleClear} disabled={loading}>
+              <Button
+                variant="outline"
+                onClick={handleClear}
+                disabled={loading}
+              >
                 <Trash2 className="w-4 h-4" />
               </Button>
             </div>
@@ -147,7 +160,9 @@ export function ImageToText() {
                     style={{ width: `${progress}%` }}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 text-center">{progress}% complete</p>
+                <p className="text-xs text-muted-foreground mt-1 text-center">
+                  {progress}% complete
+                </p>
               </div>
             )}
           </Card>
@@ -170,22 +185,23 @@ export function ImageToText() {
             />
             {text && (
               <p className="text-xs text-muted-foreground mt-2">
-                {text.split(/\s+/).filter(Boolean).length} words · {text.length} characters
+                {text.split(/\s+/).filter(Boolean).length} words · {text.length}{" "}
+                characters
               </p>
             )}
           </Card>
         </div>
 
-        <div className="ad-banner mt-12 p-6 rounded-xl bg-muted/30 border text-center text-muted-foreground text-sm">
-          
-        </div>
+        <div className="ad-banner mt-12 p-6 rounded-xl bg-muted/30 border text-center text-muted-foreground text-sm"></div>
 
         <section className="mt-12 prose prose-sm max-w-none">
           <h2 className="text-2xl font-bold mb-4">What is an OCR Tool?</h2>
           <p className="text-muted-foreground">
-            OCR (Optical Character Recognition) technology converts images containing written text into machine-readable text.
-            Our free Image to Text tool uses Tesseract.js, one of the most powerful OCR engines, to accurately extract text
-            from your images directly in your browser — no data is uploaded to any server.
+            OCR (Optical Character Recognition) technology converts images
+            containing written text into machine-readable text. Our free Image
+            to Text tool uses Tesseract.js, one of the most powerful OCR
+            engines, to accurately extract text from your images directly in
+            your browser — no data is uploaded to any server.
           </p>
           <h2 className="text-2xl font-bold mt-6 mb-4">How to Use</h2>
           <ol className="text-muted-foreground space-y-2 list-decimal list-inside">

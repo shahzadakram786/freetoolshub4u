@@ -258,7 +258,7 @@ export function ObjectEraser() {
                   <h3 className="font-semibold mb-3">Result</h3>
                   <div className="rounded-xl overflow-hidden border border-border"
                     style={{ background: "repeating-conic-gradient(#e5e7eb 0% 25%, transparent 0% 50%) 0 0 / 20px 20px" }}>
-                    <img src={`data:image/png;base64,${data.resultBase64}`} alt="Result" className="w-full rounded-xl" / loading="lazy" decoding="async" />
+                    <img src={`data:image/png;base64,${data.resultBase64}`} alt="Result" className="w-full rounded-xl" loading="lazy" decoding="async" />
                   </div>
                 </div>
               )}

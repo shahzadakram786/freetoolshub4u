@@ -149,7 +149,7 @@ export function Weather() {
 
                   {weather.icon && (
                     <img src={getIconUrl(weather.icon)} alt={weather.description}
-                      className="w-32 h-32 mx-auto drop-shadow-2xl" / loading="lazy" decoding="async" />
+                      className="w-32 h-32 mx-auto drop-shadow-2xl" loading="lazy" decoding="async" />
                   )}
 
                   <div className="text-8xl font-bold tracking-tighter mb-2 drop-shadow">

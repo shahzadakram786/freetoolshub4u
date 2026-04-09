@@ -79,7 +79,8 @@ export function BlogPost({ slug }: BlogPostPageProps) {
         </header>
 
         <div className="mb-8 rounded-2xl overflow-hidden">
-          <img src={post.coverImage} alt={post.title} className="w-full h-64 md:h-80 object-cover" / loading="lazy" decoding="async" />
+          {/* FIXED: Removed the extra spaces that were left over from the deleted slash */}
+          <img src={post.coverImage} alt={post.title} className="w-full h-64 md:h-80 object-cover" loading="lazy" decoding="async" />
         </div>
 
         <div className="ad-banner mb-8 p-4 rounded-xl bg-muted/30 border text-center text-muted-foreground text-sm">
@@ -115,7 +116,8 @@ export function BlogPost({ slug }: BlogPostPageProps) {
               {related.map((p) => (
                 <Link key={p.slug} href={`/blog/${p.slug}`}>
                   <Card className="overflow-hidden hover:shadow-md transition-all cursor-pointer group">
-                    <img src={p.coverImage} alt={p.title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" / loading="lazy" decoding="async" />
+                    {/* FIXED: Removed the stray slash before loading="lazy" */}
+                    <img src={p.coverImage} alt={p.title} className="w-full h-36 object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async" />
                     <div className="p-4">
                       <span className="text-xs text-primary font-medium">{p.category}</span>
                       <h3 className="font-bold mt-1 line-clamp-2 group-hover:text-primary transition-colors text-sm">{p.title}</h3>

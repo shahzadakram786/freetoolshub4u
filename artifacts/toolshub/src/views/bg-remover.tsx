@@ -30,10 +30,10 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
       onTouchMove={(e) => updatePos(e.touches[0].clientX)}
     >
       <div className="w-full" style={{ background: "repeating-conic-gradient(#d1d5db 0% 25%, #fff 0% 50%) 0 0 / 20px 20px" }}>
-        <img src={after} alt="Background removed" className="w-full max-h-[480px] object-contain" / loading="lazy" decoding="async" />
+        <img src={after} alt="Background removed" className="w-full max-h-[480px] object-contain"  loading="lazy" decoding="async" />
       </div>
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
-        <img src={before} alt="Original" className="w-full h-full object-contain" / loading="lazy" decoding="async" />
+        <img src={before} alt="Original" className="w-full h-full object-contain" loading="lazy" decoding="async" />
       </div>
       <div className="absolute top-3 left-3 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full backdrop-blur-sm">Original</div>
       <div className="absolute top-3 right-3 bg-violet-600/80 text-white text-xs font-bold px-2 py-1 rounded-full backdrop-blur-sm">Removed</div>
@@ -218,7 +218,7 @@ export function BgRemover() {
               </p>
               {originalImage && (
                 <div className="mt-6 max-w-xs mx-auto rounded-xl overflow-hidden opacity-40 border border-border">
-                  <img src={originalImage} alt="preview" className="w-full h-32 object-cover" / loading="lazy" decoding="async" />
+                  <img src={originalImage} alt="preview" className="w-full h-32 object-cover" loading="lazy" decoding="async" />
                 </div>
               )}
             </motion.div>
