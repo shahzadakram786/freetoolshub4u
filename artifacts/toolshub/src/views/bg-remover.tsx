@@ -30,7 +30,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
       onTouchMove={(e) => updatePos(e.touches[0].clientX)}
     >
       <div className="w-full" style={{ background: "repeating-conic-gradient(#d1d5db 0% 25%, #fff 0% 50%) 0 0 / 20px 20px" }}>
-        <img src={after} alt="Background removed" className="w-full max-h-[480px] object-contain"  loading="lazy" decoding="async" />
+        <img src={after} alt="Background removed" className="w-full max-h-120 object-contain"  loading="lazy" decoding="async" />
       </div>
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
         <img src={before} alt="Original" className="w-full h-full object-contain" loading="lazy" decoding="async" />

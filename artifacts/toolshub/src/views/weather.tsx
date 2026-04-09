@@ -80,7 +80,7 @@ export function Weather() {
       />
 
       {/* Full-page gradient background */}
-      <div className={`w-full min-h-screen bg-gradient-to-br ${getBg()} transition-all duration-1000`}>
+      <div className={`w-full min-h-screen bg-linear-to-br ${getBg()} transition-all duration-1000`}>
         <div className="w-full max-w-2xl mx-auto px-4 py-12">
 
           {/* Header */}
