@@ -1,6 +1,5 @@
 "use client";
 
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { motion } from "framer-motion";
 import { Heart, Sparkles, Phone, Star, ArrowRight, Shield, Leaf } from "lucide-react";
@@ -37,7 +36,7 @@ const PILLARS = [
 
 export function WellnessPage() {
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Dynamics Total Wellness — Private Consultations with Darlene Nicks"
         description="Discover radical acceptance and total wellness through private consultations. Healing, mind-body integration, and personal transformation with Darlene Nicks."
@@ -186,6 +185,6 @@ export function WellnessPage() {
           </motion.div>
         </div>
       </section>
-    </Layout>
+      </>
   );
 }

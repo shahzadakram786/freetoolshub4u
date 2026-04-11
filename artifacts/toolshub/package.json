@@ -72,7 +72,7 @@
   },
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",
-    "onnxruntime-web": "^1.24.3",
+    "onnxruntime-web": "1.21.0",
     "qrcode.react": "^4.2.0",
     "tesseract.js": "^7.0.0"
   }

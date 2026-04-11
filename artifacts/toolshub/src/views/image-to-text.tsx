@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Button } from "@/components/ui";
 import { Upload, Copy, Trash2, FileImage } from "lucide-react";
@@ -79,7 +78,7 @@ export function ImageToText() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Image to Text - Free OCR Tool Online | ToolsHub"
         description="Convert images to text online for free. Extract text from JPG, PNG, or any image using powerful OCR technology. No signup required."
@@ -212,6 +211,6 @@ export function ImageToText() {
           </ol>
         </section>
       </div>
-    </Layout>
+      </>
   );
 }

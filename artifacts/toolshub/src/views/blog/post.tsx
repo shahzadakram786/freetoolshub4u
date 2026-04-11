@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card } from "@/components/ui";
 import { Clock, Tag, ArrowLeft, User, Calendar, ChevronRight } from "lucide-react";
@@ -17,7 +16,6 @@ export function BlogPost({ slug }: BlogPostPageProps) {
 
   if (isLoading) {
     return (
-      <Layout>
         <div className="w-full max-w-4xl mx-auto px-4 py-12 animate-pulse">
           <div className="h-8 bg-muted rounded w-3/4 mb-4" />
           <div className="h-64 bg-muted rounded-xl mb-8" />
@@ -25,26 +23,23 @@ export function BlogPost({ slug }: BlogPostPageProps) {
             {[...Array(8)].map((_, i) => <div key={i} className="h-4 bg-muted rounded" style={{ width: `${70 + Math.random() * 30}%` }} />)}
           </div>
         </div>
-      </Layout>
     );
   }
 
   if (error || !post) {
     return (
-      <Layout>
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
           <h1 className="text-3xl font-bold mb-4">Post Not Found</h1>
           <p className="text-muted-foreground mb-6">The blog post you're looking for doesn't exist.</p>
           <Link href="/blog" className="text-primary hover:underline">← Back to Blog</Link>
         </div>
-      </Layout>
     );
   }
 
   const related = relatedPosts?.posts.filter((p: import("@workspace/api-client-react").BlogPostSummary) => p.slug !== slug).slice(0, 3) || [];
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title={`${post.title} | ToolsHub Blog`}
         description={post.excerpt}
@@ -133,6 +128,6 @@ export function BlogPost({ slug }: BlogPostPageProps) {
           </section>
         )}
       </article>
-    </Layout>
+      </>
   );
 }

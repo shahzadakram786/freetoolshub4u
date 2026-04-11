@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card } from "@/components/ui";
 import {
@@ -65,7 +64,7 @@ export function Home() {
   const { data: blogData } = useGetBlogPosts({ limit: 3 });
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="ToolsHub — 20+ Free Online Tools | Background Remover, Currency, Weather & More"
         description="Free online tools for everyone. AI background remover, live currency converter, weather report, plagiarism checker, AI detector, and 15+ more utilities. No signup required."
@@ -239,6 +238,6 @@ export function Home() {
           </div>
         </div>
       </ScrollSection>
-    </Layout>
+      </>
   );
 }

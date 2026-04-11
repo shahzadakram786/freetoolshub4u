@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Button, Label } from "@/components/ui";
 import { KeyRound, Copy, RefreshCw } from "lucide-react";
@@ -41,7 +40,7 @@ export function PasswordGenerator() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Strong Password Generator" description="Create highly secure, random passwords instantly to protect your accounts." />
       
       <div className="w-full max-w-3xl mx-auto px-4 py-12">
@@ -104,6 +103,6 @@ export function PasswordGenerator() {
           </div>
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }

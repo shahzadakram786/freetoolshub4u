@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Input, Button } from "@/components/ui";
 import { Instagram, Facebook, Download, AlertCircle } from "lucide-react";
@@ -21,7 +20,7 @@ export function SocialDownloader({ platform }: Props) {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead 
         title={`${isInsta ? 'Instagram' : 'Facebook'} Video Downloader`} 
         description={`Download ${isInsta ? 'Instagram Reels and Videos' : 'Facebook Videos'} online for free.`} 
@@ -69,6 +68,6 @@ export function SocialDownloader({ platform }: Props) {
           
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

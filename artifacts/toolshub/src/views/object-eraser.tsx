@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Button } from "@/components/ui";
 import { Upload, Download, Eraser, Undo2, Trash2, Sparkles } from "lucide-react";
@@ -151,7 +150,7 @@ export function ObjectEraser() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="AI Object Eraser - Remove Objects from Photos | ToolsHub"
         description="Erase unwanted objects from photos using AI inpainting. Paint over the object and our AI fills in the background seamlessly."
@@ -273,6 +272,6 @@ export function ObjectEraser() {
           </div>
         )}
       </div>
-    </Layout>
+      </>
   );
 }

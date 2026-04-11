@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Textarea, Button } from "@/components/ui";
 import { Hash, Copy, Trash2 } from "lucide-react";
@@ -19,7 +18,7 @@ export function WordCounter() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Word & Character Counter" description="Free online word counter, character counter, and reading time estimator." />
       
       <div className="w-full max-w-5xl mx-auto px-4 py-12">
@@ -75,6 +74,6 @@ export function WordCounter() {
           />
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }

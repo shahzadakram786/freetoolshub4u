@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card } from "@/components/ui";
 import { Clock, Tag, ChevronRight, BookOpen } from "lucide-react";
@@ -24,7 +23,7 @@ export function BlogIndex() {
   );
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Blog - Tips, Guides & How-Tos | ToolsHub"
         description="Read our expert guides, tutorials, and tips on using free online tools for image editing, currency conversion, AI detection, and more."
@@ -124,6 +123,6 @@ export function BlogIndex() {
           </>
         )}
       </div>
-    </Layout>
+      </>
   );
 }

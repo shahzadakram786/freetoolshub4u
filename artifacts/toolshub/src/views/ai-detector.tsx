@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Textarea, Button } from "@/components/ui";
 import { BrainCircuit, AlertTriangle, ShieldCheck } from "lucide-react";
@@ -18,7 +17,7 @@ export function AiDetector() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="ZeroGPT AI Content Detector" description="Check if your text was written by AI like ChatGPT or Claude. Best free AI detector." />
       
       <div className="w-full max-w-5xl mx-auto px-4 py-12">
@@ -107,6 +106,6 @@ export function AiDetector() {
           </div>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

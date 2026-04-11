@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Textarea, Button, Input, Label } from "@/components/ui";
 import { FileCode, Type, Braces, Calculator, Activity } from "lucide-react";
@@ -17,7 +16,7 @@ export function CaseConverter() {
     s.toLowerCase().replace(/\s+/g, "_");
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Case Converter - Free Online Text Case Tool | ToolsHub" description="Convert text to uppercase, lowercase, title case, camelCase, snake_case and more." />
       <div className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center flex items-center justify-center gap-3"><Type className="text-violet-500" /> Case Converter</h1>
@@ -35,7 +34,7 @@ export function CaseConverter() {
           <p className="text-xs text-muted-foreground mt-2">{text.split(/\s+/).filter(Boolean).length} words · {text.length} characters</p>
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -49,7 +48,7 @@ export function Base64Encoder() {
   const decode = () => { try { setOutput(decodeURIComponent(escape(atob(input)))); setError(false); } catch { setError(true); } };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Base64 Encode/Decode - Free Online Tool | ToolsHub" description="Free online Base64 encoder and decoder tool. Encode text and decode base64 strings instantly." />
       <div className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center flex items-center justify-center gap-3"><FileCode className="text-fuchsia-500" /> Base64 Tool</h1>
@@ -70,7 +69,7 @@ export function Base64Encoder() {
           </Card>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -103,7 +102,7 @@ export function JsonFormatter() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="JSON Formatter & Validator - Free Online Tool | ToolsHub" description="Beautify, format, and validate JSON online. Minify JSON for production use." />
       <div className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center flex items-center justify-center gap-3"><Braces className="text-yellow-600" /> JSON Formatter</h1>
@@ -124,7 +123,7 @@ export function JsonFormatter() {
           />
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -162,7 +161,7 @@ export function BmiCalculator() {
   const bmiPercent = bmi ? Math.min(100, Math.max(0, ((bmi - 10) / (45 - 10)) * 100)) : 0;
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="BMI Calculator - Metric & Imperial | ToolsHub"
         description="Calculate BMI in metric (kg/cm) or imperial (lbs/ft/inches). Free online BMI calculator with health category and tips."
@@ -254,7 +253,7 @@ export function BmiCalculator() {
           </div>
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -280,7 +279,7 @@ export function AgeCalculator() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Age Calculator - Calculate Exact Age | ToolsHub" description="Calculate your exact age in years, months, days, and total days. Free online age calculator." />
       <div className="max-w-xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center flex items-center justify-center gap-3"><Calculator className="text-lime-500" /> Age Calculator</h1>
@@ -309,7 +308,7 @@ export function AgeCalculator() {
           )}
         </Card>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -321,7 +320,7 @@ export function PlagiarismChecker() {
   const { mutate, data, isPending } = useCheckPlagiarism();
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Free Plagiarism Checker Online | ToolsHub" description="Check text for plagiarism instantly. Find duplicate content and get uniqueness score." />
       <div className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Plagiarism Checker</h1>
@@ -373,7 +372,7 @@ export function PlagiarismChecker() {
           </Card>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
 
@@ -382,7 +381,7 @@ export function Paraphraser() {
   const { mutate, data, isPending } = useParaphraseText();
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Article Rewriter & Plagiarism Remover | ToolsHub" description="Rewrite and paraphrase text to pass plagiarism checks. Free online article rewriter tool." />
       <div className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Article Rewriter</h1>
@@ -407,6 +406,6 @@ export function Paraphraser() {
           </Card>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

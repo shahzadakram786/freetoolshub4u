@@ -1,13 +1,12 @@
 "use client";
 
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import Link from "next/link";
 import { Shield, FileText, Mail, Info, ExternalLink } from "lucide-react";
 
 export function PrivacyPolicy() {
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Privacy Policy | ToolsHub"
         description="ToolsHub Privacy Policy — how we handle your data, what we collect, and your rights."
@@ -102,13 +101,13 @@ export function PrivacyPolicy() {
           </section>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
 
 export function TermsOfService() {
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Terms of Service | ToolsHub"
         description="ToolsHub Terms of Service — rules, acceptable use, and your agreement with us."
@@ -174,13 +173,13 @@ export function TermsOfService() {
           ))}
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
 
 export function AboutPage() {
   return (
-    <Layout>
+      <>
       <SeoHead
         title="About ToolsHub — Free Online Tools for Everyone"
         description="Learn about ToolsHub, our mission to provide free, fast, and private online tools for everyone."
@@ -250,13 +249,13 @@ export function AboutPage() {
           </Link>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
 
 export function ContactPage() {
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Contact ToolsHub — Get in Touch"
         description="Contact the ToolsHub team for support, tool suggestions, advertising inquiries, or partnership opportunities."
@@ -320,6 +319,6 @@ export function ContactPage() {
           </form>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

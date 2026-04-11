@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Input, Button, Select, Label } from "@/components/ui";
 import { ArrowRightLeft, RefreshCw, TrendingUp } from "lucide-react";
@@ -49,7 +48,7 @@ export function CurrencyConverter() {
   ];
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Live Currency Converter - Real-Time Exchange Rates | ToolsHub"
         description="Convert currencies with live exchange rates. USD to PKR, EUR to USD, and 60+ currency pairs. Auto-refreshes every minute for accuracy."
@@ -156,6 +155,6 @@ export function CurrencyConverter() {
           </div>
         )}
       </div>
-    </Layout>
+      </>
   );
 }

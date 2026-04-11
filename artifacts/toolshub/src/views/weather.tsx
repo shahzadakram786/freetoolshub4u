@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead, toolJsonLd } from "@/components/seo-head";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Wind, Droplets, Thermometer, Eye, Gauge, MapPin, RefreshCw, Cloud } from "lucide-react";
@@ -27,14 +26,14 @@ export function Weather() {
     { city },
     { query: { enabled: mode === "city" && !!city, retry: false, refetchInterval: 5 * 60 * 1000 } as any }
   );
-  const { data: coordWeather, isLoading: coordLoading, refetch: refetchCoords } = useGetWeatherByCoords(
+  const { data: coordWeather, isLoading: coordLoading,error: coordError, refetch: refetchCoords } = useGetWeatherByCoords(
     { lat: geoCoords?.lat ?? 0, lon: geoCoords?.lon ?? 0 },
     { query: { enabled: mode === "coords" && !!geoCoords, retry: false, refetchInterval: 5 * 60 * 1000 } as any }
   );
 
   const weather = mode === "coords" ? coordWeather : cityWeather;
   const isLoading = mode === "coords" ? coordLoading : cityLoading;
-  const error = mode === "coords" ? null : cityError;
+  const error = mode === "coords" ? coordError : cityError;
 
   const detectLocation = () => {
     if (!navigator.geolocation) { setGeoError("Geolocation not supported."); return; }
@@ -70,7 +69,7 @@ export function Weather() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead
         title="Live Weather Report — Real-Time Weather Worldwide"
         description="Get real-time weather conditions, temperature, humidity, wind speed, and more for any city. Auto-detects your location."
@@ -80,7 +79,7 @@ export function Weather() {
       />
 
       {/* Full-page gradient background */}
-      <div className={`w-full min-h-screen bg-linear-to-br ${getBg()} transition-all duration-1000`}>
+      <div className={`w-full min-h-screen bg-gradient-to-br  transition-all duration-1000`}>
         <div className="w-full max-w-2xl mx-auto px-4 py-12">
 
           {/* Header */}
@@ -189,6 +188,6 @@ export function Weather() {
           </AnimatePresence>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

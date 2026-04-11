@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Input, Button, Label } from "@/components/ui";
 import { QrCode, Download } from "lucide-react";
@@ -31,7 +30,7 @@ export function QrGenerator() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="QR Code Generator" description="Generate high quality QR codes for URLs, text, and contacts for free." />
       
       <div className="w-full max-w-4xl mx-auto px-4 py-12">
@@ -77,6 +76,6 @@ export function QrGenerator() {
           </Card>
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

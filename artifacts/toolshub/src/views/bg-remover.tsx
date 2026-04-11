@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead, toolJsonLd } from "@/components/seo-head";
 import { motion, AnimatePresence } from "framer-motion";
 import { Upload, Download, Trash2, Sparkles, MoveHorizontal, Cpu, Zap, Lock } from "lucide-react";
@@ -30,7 +29,7 @@ function ComparisonSlider({ before, after }: { before: string; after: string }) 
       onTouchMove={(e) => updatePos(e.touches[0].clientX)}
     >
       <div className="w-full" style={{ background: "repeating-conic-gradient(#d1d5db 0% 25%, #fff 0% 50%) 0 0 / 20px 20px" }}>
-        <img src={after} alt="Background removed" className="w-full max-h-120 object-contain"  loading="lazy" decoding="async" />
+        <img src={after} alt="Background removed" className="w-full max-h-[480px] object-contain" loading="lazy" decoding="async" />
       </div>
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
         <img src={before} alt="Original" className="w-full h-full object-contain" loading="lazy" decoding="async" />
@@ -63,44 +62,60 @@ export function BgRemover() {
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const processFile = useCallback(async (file: File) => {
-    if (!file.type.startsWith("image/")) { setError("Please upload an image file (JPG, PNG, WEBP)."); return; }
-    if (file.size > 15 * 1024 * 1024) { setError("Image must be under 15MB."); return; }
+ 
+const processFile = useCallback(async (file: File) => {
+  if (!file.type.startsWith("image/")) {
+    setError("Please upload an image file (JPG, PNG, WEBP).");
+    return;
+  }
+  if (file.size > 8 * 1024 * 1024) {
+    setError("Image is too large. Please use an image under 8MB.");
+    return;
+  }
 
-    setError(null);
-    setResultImage(null);
-    setProgress(0);
-    setProgressLabel("Loading AI model...");
-    setOriginalImage(URL.createObjectURL(file));
-    setIsProcessing(true);
+  setError(null);
+  setResultImage(null);
+  setProgress(0);
+  setProgressLabel("Downloading AI model...");
+  setOriginalImage(URL.createObjectURL(file));
+  setIsProcessing(true);
 
-    try {
-      setProgress(15);
-      const { removeBackground } = await import("@imgly/background-removal");
-      setProgress(40);
-      setProgressLabel("Running background segmentation...");
+  try {
+    setProgress(10);
+    setProgressLabel("Loading AI model library...");
+    const { removeBackground } = await import("@imgly/background-removal");
+    setProgress(20);
+    setProgressLabel("Downloading AI model...");
 
-      const resultBlob = await removeBackground(file, {
-        debug: false,
-        progress: (key: string, current: number, total: number) => {
-          if (key === "compute:inference") {
-            const pct = 40 + Math.round((current / total) * 50);
-            setProgress(pct);
-            if (pct > 80) setProgressLabel("Finalizing result...");
+    const resultBlob = await removeBackground(file, {
+      progress: (key: string, current: number, total: number) => {
+        if (total === 0) return;
+        const pct = Math.round((current / total) * 100);
+
+        if (key.includes("fetch")) {
+          setProgress(20 + Math.round(pct * 0.3)); // 20-50%
+          setProgressLabel(`Downloading AI assets... ${pct}%`);
+        } else if (key.includes("inference") || key.includes("compute")) {
+          setProgress(50 + Math.round(pct * 0.45)); // 50-95%
+          if (pct > 80) {
+            setProgressLabel("Refining edges...");
+          } else {
+            setProgressLabel("Removing background...");
           }
-        },
-      } as Parameters<typeof removeBackground>[1]);
+        }
+      },
+    });
 
-      setProgress(100);
-      setProgressLabel("Done!");
-      setResultImage(URL.createObjectURL(resultBlob));
-    } catch (err) {
-      console.error(err);
-      setError("Processing failed. The model may still be loading — please try again in a moment.");
-    } finally {
-      setIsProcessing(false);
-    }
-  }, []);
+    setProgress(100);
+    setProgressLabel("Done!");
+    setResultImage(URL.createObjectURL(resultBlob));
+  } catch (err: any) {
+    console.error("BG REMOVAL ERROR:", err);
+    setError(`Processing failed: ${err.message || "Unknown error"}. Please try a different image or refresh the page.`);
+  } finally {
+    setIsProcessing(false);
+  }
+}, []);
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -126,7 +141,7 @@ export function BgRemover() {
   };
 
   return (
-    <Layout>
+    <>
       <SeoHead
         title="AI Background Remover — Free, Instant & Private"
         description="Remove image backgrounds instantly with on-device AI. 100% private — your image never leaves your browser. No API key needed. Download as transparent PNG."
@@ -190,7 +205,7 @@ export function BgRemover() {
                 <span className="inline-block px-5 py-2.5 rounded-xl bg-violet-600 text-white font-semibold text-sm hover:bg-violet-700 transition-colors shadow-lg shadow-violet-600/20">
                   Choose Image
                 </span>
-                <p className="text-xs text-muted-foreground mt-4">Supports JPG, PNG, WEBP · Max 15MB</p>
+                <p className="text-xs text-muted-foreground mt-4">Supports JPG, PNG, WEBP · Max 8MB</p>
               </div>
             </motion.div>
           )}
@@ -256,6 +271,6 @@ export function BgRemover() {
           </motion.div>
         )}
       </div>
-    </Layout>
+    </>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Input, Button, Label } from "@/components/ui";
 import { LinkIcon, Copy, CheckCircle2 } from "lucide-react";
@@ -28,7 +27,7 @@ export function UrlShortener() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="Free URL Shortener" description="Create short, memorable links instantly. Best free URL shortener tool online." />
       
       <div className="w-full max-w-3xl mx-auto px-4 py-12">
@@ -77,6 +76,6 @@ export function UrlShortener() {
           
         </div>
       </div>
-    </Layout>
+      </>
   );
 }

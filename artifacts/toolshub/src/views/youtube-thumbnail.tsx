@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Layout } from "@/components/layout";
 import { SeoHead } from "@/components/seo-head";
 import { Card, Input, Button } from "@/components/ui";
 import { Youtube, Download } from "lucide-react";
@@ -29,7 +28,7 @@ export function YoutubeThumbnail() {
   };
 
   return (
-    <Layout>
+      <>
       <SeoHead title="YouTube Thumbnail Downloader" description="Download HD thumbnails from any YouTube video for free." />
       
       <div className="w-full max-w-4xl mx-auto px-4 py-12">
@@ -75,6 +74,6 @@ export function YoutubeThumbnail() {
           
         </div>
       </div>
-    </Layout>
+      </>
   );
 }
